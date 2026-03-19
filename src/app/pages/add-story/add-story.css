@@ -1,0 +1,11 @@
+form.add-story-form {
+  max-width: 420px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}

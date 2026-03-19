@@ -1,0 +1,53 @@
+<h2 class="text-2xl font-semibold text-cyan-800">Thêm truyện tranh</h2>
+
+<form [formGroup]="addForm" (ngSubmit)="submitForm()" class="add-story-form">
+  <div class="flex flex-col gap-2">
+    <label class="font-medium">Tên truyện</label>
+    <input
+      type="text"
+      formControlName="title"
+      class="border border-gray-300 rounded px-3 py-2"
+      placeholder="Nhập tên truyện"
+    />
+    @if (title?.invalid && title?.touched) {
+      <p class="text-sm text-red-600">Tên truyện phải ít nhất 3 ký tự</p>
+    }
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="font-medium">Tác giả</label>
+    <input
+      type="text"
+      formControlName="author"
+      class="border border-gray-300 rounded px-3 py-2"
+      placeholder="Nhập tên tác giả"
+    />
+    @if (author?.invalid && author?.touched) {
+      <p class="text-sm text-red-600">Tác giả là bắt buộc</p>
+    }
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="font-medium">Lượt xem</label>
+    <input
+      type="number"
+      formControlName="views"
+      class="border border-gray-300 rounded px-3 py-2"
+      placeholder="0"
+      min="0"
+    />
+    @if (views?.invalid && views?.touched) {
+      <p class="text-sm text-red-600">Lượt xem phải là số lớn hơn hoặc bằng 0</p>
+    }
+  </div>
+
+  <button
+    type="submit"
+    class="mt-4 rounded bg-cyan-700 px-4 py-2 text-white disabled:bg-gray-300"
+    [disabled]="addForm.invalid"
+  >
+    Thêm truyện
+  </button>
+
+  <pre class="mt-6 rounded bg-slate-50 p-4 text-left">{{ addForm.value | json }}</pre>
+</form>
