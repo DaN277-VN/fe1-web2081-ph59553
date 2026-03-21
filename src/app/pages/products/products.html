@@ -1,6 +1,55 @@
-<h2>Danh sách sản phẩm</h2>
-<ul>
-  <li>Laptop</li>
-  <li>Phone</li>
-  <li>Tablet</li>
-</ul>
+<div class="products-container">
+  <h2 class="text-2xl font-semibold text-cyan-800">Thêm sản phẩm</h2>
+
+  <form [formGroup]="productForm" (ngSubmit)="submitForm()" class="product-form">
+    <div class="flex flex-col gap-2">
+      <label class="font-medium">Tên sản phẩm</label>
+      <input
+        type="text"
+        formControlName="name"
+        class="border border-gray-300 rounded px-3 py-2"
+        placeholder="Nhập tên sản phẩm"
+      />
+      @if (name?.invalid && name?.touched) {
+        <p class="text-sm text-red-600">Tên sản phẩm phải ít nhất 3 ký tự</p>
+      }
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label class="font-medium">Giá</label>
+      <input
+        type="number"
+        formControlName="price"
+        class="border border-gray-300 rounded px-3 py-2"
+        placeholder="0"
+        min="0"
+      />
+      @if (price?.invalid && price?.touched) {
+        <p class="text-sm text-red-600">Giá phải là số lớn hơn hoặc bằng 0</p>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="mt-4 rounded bg-cyan-700 px-4 py-2 text-white disabled:bg-gray-300"
+      [disabled]="productForm.invalid || loading"
+    >
+      {{ loading ? 'Đang gửi...' : 'Thêm sản phẩm' }}
+    </button>
+
+    @if (success) {
+      <p class="mt-4 rounded bg-green-100 p-3 text-green-700">{{ success }}</p>
+    }
+
+    @if (error) {
+      <p class="mt-4 rounded bg-red-100 p-3 text-red-700">{{ error }}</p>
+    }
+  </form>
+
+  <h2 class="mt-8 text-2xl font-semibold text-cyan-800">Danh sách sản phẩm</h2>
+  <ul>
+    <li>Laptop</li>
+    <li>Phone</li>
+    <li>Tablet</li>
+  </ul>
+</div>

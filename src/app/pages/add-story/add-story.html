@@ -44,10 +44,16 @@
   <button
     type="submit"
     class="mt-4 rounded bg-cyan-700 px-4 py-2 text-white disabled:bg-gray-300"
-    [disabled]="addForm.invalid"
+    [disabled]="addForm.invalid || loading"
   >
-    Thêm truyện
+    {{ loading ? 'Đang gửi...' : 'Thêm truyện' }}
   </button>
 
-  <pre class="mt-6 rounded bg-slate-50 p-4 text-left">{{ addForm.value | json }}</pre>
+  @if (success) {
+    <p class="mt-4 rounded bg-green-100 p-3 text-green-700">{{ success }}</p>
+  }
+
+  @if (error) {
+    <p class="mt-4 rounded bg-red-100 p-3 text-red-700">{{ error }}</p>
+  }
 </form>
