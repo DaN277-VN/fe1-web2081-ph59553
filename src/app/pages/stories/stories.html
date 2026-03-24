@@ -1,37 +1,65 @@
-<div class="flex items-center justify-between">
-  <h2 class="text-2xl font-semibold text-cyan-800">Danh sách truyện tranh</h2>
-  <a
-    routerLink="/stories/add"
-    class="rounded bg-cyan-700 px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-600"
-    >Thêm truyện mới</a
-  >
-</div>
+<h2 class="text-2xl font-semibold text-cyan-800">Danh sách truyện tranh</h2>
 
-@if (stories.length === 0) {
-  <p class="mt-6 text-lg text-gray-600">Không có truyện nào</p>
+<!-- Loading -->
+@if (loading) {
+  <div class="loading">
+    <p>Đang tải dữ liệu...</p>
+  </div>
 }
 
-@for (story of stories; track story.title; let i = $index) {
-  <div class="story-card">
-    <div class="story-header">
-      <div class="story-thumb">
-        <img src="{{ story.imageUrl }}" alt="{{ story.title }}" />
-      </div>
-
-      <div class="story-info">
-        <h3 class="story-title">{{ story.title }}</h3>
-        <p class="story-meta">Tác giả: {{ story.author }}</p>
-        <p class="story-meta">
-          Năm: {{ story.year }} • Thể loại: {{ story.genre }}
-        </p>
-      </div>
-
-      <div class="story-stats">
-        <p class="story-views">Lượt xem: {{ story.views }}</p>
-        @if (story.views > 90000) {
-          <span class="hot">HOT</span>
-        }
-      </div>
-    </div>
+<!-- Error -->
+@if (error) {
+  <div class="error">
+    <p>{{ error }}</p>
   </div>
+}
+
+<!-- Empty State -->
+@if (!loading && stories.length === 0) {
+  <div class="empty-state">
+    <p>Không có truyện nào</p>
+  </div>
+}
+
+<!-- Table -->
+@if (stories.length > 0) {
+  <table class="stories-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tên truyện</th>
+        <th>Tác giả</th>
+        <th>Lượt xem</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (story of stories; track story.id) {
+        <tr>
+          <td>{{ story.id }}</td>
+          <td>
+            {{ story.title }}
+            @if (story.views > 90000) {
+              <span class="hot">HOT</span>
+            }
+          </td>
+          <td>{{ story.author }}</td>
+          <td>{{ story.views | number }}</td>
+          <td>
+            <button
+              class="btn-delete"
+              (click)="deleteStory(story.id)"
+              [disabled]="deleteInProgress === story.id"
+            >
+              @if (deleteInProgress === story.id) {
+                Đang xóa...
+              } @else {
+                Xóa
+              }
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
 }
